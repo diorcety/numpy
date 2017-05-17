@@ -578,7 +578,8 @@ class system_info(object):
                     # them using the library_dirs, and not necessarily by
                     # runtime_library_dirs
                     del i['libraries']
-                    i['runtime_library_dirs'] = i.pop('library_dirs')
+                    if sys.platform != 'win32':
+                        i['runtime_library_dirs'] = i.pop('library_dirs')
                     dict_append(info, **i)
                 else:
                     log.info('Runtime library %s was not found. Ignoring' % (lib))
