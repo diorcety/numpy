@@ -19,6 +19,7 @@ class install_clib(Command):
 
     def run (self):
         build_clib_cmd = get_cmd("build_clib")
+        build_clib_cmd.ensure_finalized()
         build_dir = build_clib_cmd.build_clib
 
         # We need the compiler to get the library name -> filename association
