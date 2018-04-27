@@ -11,6 +11,8 @@ from distutils.command.install_data import install_data as old_install_data
 class install_data (old_install_data):
 
     def run(self):
+        self.run_command('build_src')
+
         old_install_data.run(self)
 
         if have_setuptools:
