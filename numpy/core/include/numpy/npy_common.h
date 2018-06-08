@@ -39,12 +39,12 @@
 #endif
 
 /* compile target attributes */
-#if defined HAVE_ATTRIBUTE_TARGET_AVX && defined HAVE_LINK_AVX
+#if defined HAVE_ATTRIBUTE_TARGET_AVX && defined HAVE_LINK_AVX && __AVX__
 #define NPY_GCC_TARGET_AVX __attribute__((target("avx")))
 #else
 #define NPY_GCC_TARGET_AVX
 #endif
-#if defined HAVE_ATTRIBUTE_TARGET_AVX2 && defined HAVE_LINK_AVX2
+#if defined HAVE_ATTRIBUTE_TARGET_AVX2 && defined HAVE_LINK_AVX2 && __AVX2__
 #define NPY_GCC_TARGET_AVX2 __attribute__((target("avx2")))
 #else
 #define NPY_GCC_TARGET_AVX2
