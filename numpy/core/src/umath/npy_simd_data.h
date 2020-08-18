@@ -1,6 +1,6 @@
 #ifndef __NPY_SIMD_DATA_H_
 #define __NPY_SIMD_DATA_H_
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined  NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined  NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 /*
  * Constants used in vector implementation of float64 exp(x)
  */

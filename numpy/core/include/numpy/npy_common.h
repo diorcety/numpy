@@ -39,26 +39,26 @@
 #endif
 
 /* compile target attributes */
-#if defined HAVE_ATTRIBUTE_TARGET_AVX && defined HAVE_LINK_AVX
+#if defined HAVE_ATTRIBUTE_TARGET_AVX && defined HAVE_LINK_AVX && defined __AVX__
 #define NPY_GCC_TARGET_AVX __attribute__((target("avx")))
 #else
 #define NPY_GCC_TARGET_AVX
 #endif
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS && defined __AVX2__
 #define HAVE_ATTRIBUTE_TARGET_FMA
 #define NPY_GCC_TARGET_FMA __attribute__((target("avx2,fma")))
 #endif
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX2 && defined HAVE_LINK_AVX2
+#if defined HAVE_ATTRIBUTE_TARGET_AVX2 && defined HAVE_LINK_AVX2 && defined __AVX2__
 #define NPY_GCC_TARGET_AVX2 __attribute__((target("avx2")))
 #else
 #define NPY_GCC_TARGET_AVX2
 #endif
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F && defined HAVE_LINK_AVX512F
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F && defined HAVE_LINK_AVX512F && defined __AVX512F__
 #define NPY_GCC_TARGET_AVX512F __attribute__((target("avx512f")))
-#elif defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS
+#elif defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined __AVX512F__
 #define NPY_GCC_TARGET_AVX512F __attribute__((target("avx512f")))
 #else
 #define NPY_GCC_TARGET_AVX512F

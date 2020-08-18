@@ -208,7 +208,7 @@ nomemoverlap(char *ip,
  *  #func = add, subtract, multiply#
  */
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 static NPY_INLINE NPY_GCC_TARGET_AVX512F void
 AVX512F_@func@_@TYPE@(char **args, const npy_intp *dimensions, const npy_intp *steps);
 #endif
@@ -216,7 +216,7 @@ AVX512F_@func@_@TYPE@(char **args, const npy_intp *dimensions, const npy_intp *s
 static NPY_INLINE int
 run_binary_avx512f_@func@_@TYPE@(char **args, const npy_intp *dimensions, const npy_intp *steps)
 {
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
     if (IS_BINARY_STRIDE_ONE(@esize@, 64)) {
         AVX512F_@func@_@TYPE@(args, dimensions, steps);
         return 1;
@@ -235,7 +235,7 @@ run_binary_avx512f_@func@_@TYPE@(char **args, const npy_intp *dimensions, const 
  *  #max_stride = 2, 8, 8#
  */
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 static NPY_INLINE NPY_GCC_TARGET_AVX512F void
 AVX512F_@func@_@TYPE@(@type@*, @type@*, const npy_intp n, const npy_intp stride);
 #endif
@@ -243,7 +243,7 @@ AVX512F_@func@_@TYPE@(@type@*, @type@*, const npy_intp n, const npy_intp stride)
 static NPY_INLINE int
 run_unary_avx512f_@func@_@TYPE@(char **args, const npy_intp *dimensions, const npy_intp *steps)
 {
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
     if ((IS_OUTPUT_BLOCKABLE_UNARY((npy_uint)(@esize@/@outsize@), 64)) &&
             (labs(steps[0]) < 2*@max_stride@*@esize@) &&
                 ((steps[0] & (@esize@-1)) == 0)) {
@@ -275,7 +275,7 @@ run_unary_avx512f_@func@_@TYPE@(char **args, const npy_intp *dimensions, const n
  *  #func = maximum, minimum#
  */
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && @EXISTS@
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__ && @EXISTS@
 static NPY_INLINE NPY_GCC_TARGET_AVX512F void
 AVX512F_@func@_@TYPE@(char **args, npy_intp const *dimensions, npy_intp const *steps);
 #endif
@@ -283,7 +283,7 @@ AVX512F_@func@_@TYPE@(char **args, npy_intp const *dimensions, npy_intp const *s
 static NPY_INLINE int
 run_binary_avx512f_@func@_@TYPE@(char **args, npy_intp const *dimensions, npy_intp const *steps)
 {
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && @EXISTS@
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__ && @EXISTS@
     if (IS_BINARY_SMALL_STEPS_AND_NOMEMOVERLAP) {
         AVX512F_@func@_@TYPE@(args, dimensions, steps);
         return 1;
@@ -301,7 +301,7 @@ run_binary_avx512f_@func@_@TYPE@(char **args, npy_intp const *dimensions, npy_in
 /**begin repeat
  * #ISA = FMA, AVX512F#
  * #isa = fma, avx512f#
- * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS#
+ * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS && __AVX2__, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && __AVX512F__#
  * #REGISTER_SIZE = 32, 64#
  */
 
@@ -384,14 +384,14 @@ run_unary_@isa@_sincos_FLOAT(char **args, npy_intp const *dimensions, npy_intp c
 
 /**end repeat**/
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined  NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 static NPY_INLINE void
 AVX512F_exp_DOUBLE(npy_double *, npy_double *, const npy_intp n, const npy_intp stride);
 #endif
 static NPY_INLINE int
 run_unary_avx512f_exp_DOUBLE(char **args, npy_intp const *dimensions, npy_intp const *steps)
 {
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 #if !(defined(__clang__) && (__clang_major__ < 10 || (__clang_major__ == 10 && __clang_minor__ < 1)))
     if (IS_OUTPUT_BLOCKABLE_UNARY(sizeof(npy_double), 64)) {
         AVX512F_exp_DOUBLE((npy_double*)args[1], (npy_double*)args[0], dimensions[0], steps[0]);
@@ -1360,7 +1360,7 @@ sse2_@kind@_@TYPE@(@type@ * ip, @type@ * op, const npy_intp n)
 
 /* bunch of helper functions used in ISA_exp/log_FLOAT*/
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS && __AVX2__
 static NPY_INLINE NPY_GCC_OPT_3 NPY_GCC_TARGET_FMA __m256
 fma_get_full_load_mask_ps(void)
 {
@@ -1597,7 +1597,7 @@ fma_trunc_@vsub@(@vtype@ x)
 /**end repeat**/
 #endif
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && __AVX512F__
 static NPY_INLINE NPY_GCC_OPT_3 NPY_GCC_TARGET_AVX512F __mmask16
 avx512_get_full_load_mask_ps(void)
 {
@@ -1879,7 +1879,7 @@ avx512_csquare_@vsub@(@vtype@ x)
  * #vsub = , _mask#
  * #mask = __m256, __mmask16#
  * #fmadd = _mm256_fmadd_ps, _mm512_fmadd_ps#
- * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS#
+ * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS && __AVX2__, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && __AVX512F__#
  **/
 
 #if defined @CHK@
@@ -1991,7 +1991,7 @@ static NPY_INLINE NPY_GCC_OPT_3 NPY_GCC_TARGET_@ISA@ @vtype@d
  *  #vectorf = max, min#
  */
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 static NPY_INLINE NPY_GCC_TARGET_AVX512F void
 AVX512F_@func@_@TYPE@(char **args, npy_intp const *dimensions, npy_intp const *steps)
 {
@@ -2080,7 +2080,7 @@ AVX512F_@func@_@TYPE@(char **args, npy_intp const *dimensions, npy_intp const *s
  * #vtype = __m256, __m512#
  * #cvtps_epi32 = _mm256_cvtps_epi32, #
  * #masked_store = _mm256_maskstore_ps, _mm512_mask_storeu_ps#
- * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS#
+ * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS && __AVX2__, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && __AVX512F__#
  */
 
 /**begin repeat1
@@ -2166,7 +2166,7 @@ static NPY_INLINE NPY_GCC_OPT_3 NPY_GCC_TARGET_@ISA@ void
  * #cvtps_epi32 = _mm256_cvtpd_epi32, #
  * #castmask = _mm256_castsi256_pd, #
  * #masked_store = _mm256_maskstore_pd, _mm512_mask_storeu_pd#
- * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS#
+ * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS && __AVX2__, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && __AVX512F__#
  */
 
 /**begin repeat1
@@ -2252,7 +2252,7 @@ static NPY_INLINE NPY_GCC_OPT_3 NPY_GCC_TARGET_@ISA@ void
  * #full_mask= 0xFF, 0xFFFF#
  * #masked_store = _mm256_maskstore_ps, _mm512_mask_storeu_ps#
  * #cvtps_epi32 = _mm256_cvtps_epi32, #
- * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS#
+ * #CHK = HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS && __AVX2__, HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && __AVX512F__#
  */
 
 /*
@@ -2701,7 +2701,7 @@ static NPY_GCC_OPT_3 NPY_GCC_TARGET_@ISA@ void
  * 6) exp(r) - 1 is approximated by a polynomial function p(r)
  *    exp(x) = 2^m(2^(j/32) + 2^(j/32)p(r));
  */
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && __AVX512F__
 #if !(defined(__clang__) && (__clang_major__ < 10 || (__clang_major__ == 10 && __clang_minor__ < 1)))
 static NPY_GCC_OPT_3 NPY_GCC_TARGET_AVX512F void
 AVX512F_exp_DOUBLE(npy_double * op,
@@ -2857,7 +2857,7 @@ AVX512F_exp_DOUBLE(npy_double * op,
  *  #vectorf = _mm512_add, _mm512_sub, avx512_cmul#
  */
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 static NPY_GCC_OPT_3 NPY_INLINE NPY_GCC_TARGET_AVX512F void
 AVX512F_@func@_@TYPE@(char **args, const npy_intp *dimensions, const npy_intp *steps)
 {
@@ -2896,7 +2896,7 @@ AVX512F_@func@_@TYPE@(char **args, const npy_intp *dimensions, const npy_intp *s
  *  #vectorf = avx512_csquare, avx512_conjugate#
  */
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 static NPY_GCC_OPT_3 NPY_INLINE NPY_GCC_TARGET_AVX512F void
 AVX512F_@func@_@TYPE@(@type@ * op,
                       @type@ * ip,
@@ -2943,7 +2943,7 @@ AVX512F_@func@_@TYPE@(@type@ * op,
 #endif
 /**end repeat1**/
 
-#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
+#if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && __AVX512F__
 static NPY_GCC_OPT_3 NPY_INLINE NPY_GCC_TARGET_AVX512F void
 AVX512F_absolute_@TYPE@(@type@ * op,
                         @type@ * ip,

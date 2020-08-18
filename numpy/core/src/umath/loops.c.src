@@ -570,7 +570,7 @@ NPY_NO_EXPORT void
 /**begin repeat1
  * #isa = , _avx2#
  * #ISA = , AVX2#
- * #CHK = 1, HAVE_ATTRIBUTE_TARGET_AVX2#
+ * #CHK = 1, HAVE_ATTRIBUTE_TARGET_AVX2 && __AVX2__#
  * #ATTR = , NPY_GCC_TARGET_AVX2#
  */
 
@@ -1562,7 +1562,7 @@ DOUBLE_exp(char **args, npy_intp const *dimensions, npy_intp const *steps, void 
 /**begin repeat
  * #isa = avx512f, fma#
  * #ISA = AVX512F, FMA#
- * #CHK = HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS, HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS#
+ * #CHK = HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && __AVX512F__, HAVE_ATTRIBUTE_TARGET_AVX2_WITH_INTRINSICS && __AVX2__#
  */
 
 /**begin repeat1

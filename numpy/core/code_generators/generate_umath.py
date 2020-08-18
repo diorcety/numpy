@@ -1015,7 +1015,7 @@ def make_arrays(funcdict):
                 if t.simd is not None:
                     for vt in t.simd:
                         code2list.append(textwrap.dedent("""\
-                        #ifdef HAVE_ATTRIBUTE_TARGET_{ISA}
+                        #if defined HAVE_ATTRIBUTE_TARGET_{ISA} && __{ISA}__
                         if (NPY_CPU_HAVE({ISA})) {{
                             {fname}_functions[{idx}] = {type}_{fname}_{isa};
                         }}
