@@ -131,7 +131,6 @@ OPTIONAL_INTRINSICS = [("__builtin_isnan", '5.'),
                        ("__builtin_bswap32", '5u'),
                        ("__builtin_bswap64", '5u'),
                        ("__builtin_expect", '5, 0'),
-                       ("__builtin_mul_overflow", '5, 5, (int*)5'),
                        # MMX only needed for icc, but some clangs don't have it
                        ("_m_from_int64", '0', "emmintrin.h"),
                        ("_mm_load_ps", '(float*)0', "xmmintrin.h"),  # SSE
