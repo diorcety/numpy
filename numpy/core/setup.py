@@ -817,9 +817,7 @@ def configuration(parent_package='',top_path=None):
             join('include', 'numpy', 'numpyconfig.h'),
             join('include', 'numpy', 'ndarraytypes.h'),
             join('include', 'numpy', 'npy_1_7_deprecated_api.h'),
-            # add library sources as distuils does not consider libraries
-            # dependencies
-            ] + npysort_sources + npymath_sources
+            ]
 
     multiarray_src = [
             join('src', 'multiarray', 'alloc.c'),
@@ -917,8 +915,7 @@ def configuration(parent_package='',top_path=None):
             ]
 
     config.add_extension('_multiarray_umath',
-                         sources=multiarray_src + umath_src +
-                                 npymath_sources + common_src +
+                         sources=multiarray_src + umath_src + common_src +
                                  [generate_config_h,
                                   generate_numpyconfig_h,
                                   generate_numpy_api,
